@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import CartTable from '@/components/cart/CartTable';
-import {useCart} from '@/use/cart';
-import {currency} from '@/utils/currency';
+import CartTable from '@/components/cart/CartTable'
+import {useCart} from '@/use/cart'
+import {currency} from '@/utils/currency'
 export default {
   setup() {
     return {...useCart(), currency}

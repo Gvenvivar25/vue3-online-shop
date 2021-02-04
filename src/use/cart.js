@@ -1,4 +1,4 @@
-import {useStore} from 'vuex';
+import {useStore} from 'vuex'
 import {onMounted, computed} from 'vue'
 
 export function useCart() {
@@ -17,7 +17,7 @@ export function useCart() {
 
   const products = computed(
     () => store.getters['product/products']
-      .filter(x => keys.includes(x.id))
+      .filter(product => keys.includes(product.id))
       .map(prod => {
         prod.count = CART_MODEL[prod.id]
         return prod

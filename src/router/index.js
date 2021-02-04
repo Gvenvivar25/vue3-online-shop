@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Shop from '@/views/Shop';
+import Shop from '@/views/Shop'
 import store from '../store'
 
 const routes = [
@@ -9,7 +9,7 @@ const routes = [
     component: Shop,
     meta: {
       layout: 'main',
-      auth: true
+      auth: false
     }
   },
   {
@@ -27,7 +27,7 @@ const routes = [
     component: () => import('../views/Product.vue'),
     meta: {
       layout: 'main',
-      auth: true
+      auth: false
     }
   },
   {
@@ -36,7 +36,7 @@ const routes = [
     component: () => import('../views/Cart.vue'),
     meta: {
       layout: 'main',
-      auth: true
+      auth: false
     }
   }
 ]

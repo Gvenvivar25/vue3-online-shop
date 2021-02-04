@@ -26,20 +26,16 @@
 </template>
 
 <script>
-import {currency} from '@/utils/currency';
-/*import {computed} from 'vue'*/
+import {currency} from '@/utils/currency'
 export default {
   props:['products'],
   emits: ['add', 'remove'],
   setup(props) {
-
     const rowSum = (idx) => {
       return props.products[idx].count * props.products[idx].price
     }
-
     return {currency, rowSum}
   }
-
 }
 </script>
 
