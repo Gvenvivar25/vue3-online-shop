@@ -10,6 +10,12 @@
     <product-table
         :products="products"
     ></product-table>
+
+    <app-pagination
+    :dataList="products"
+    :listSize="5"
+    >
+    </app-pagination>
   </div>
 
   <teleport to="body">
@@ -25,6 +31,7 @@ import AppLoader from '@/components/ui/AppLoader'
 import AppPage from '@/components/ui/AppPage'
 import AppModal from '@/components/ui/AppModal'
 import ProductModal from '@/components/product/ProductModal'
+import AppPagination from '@/components/ui/AppPagination'
 import {useStore} from 'vuex'
 import {onMounted, computed, ref} from 'vue'
 export default {
@@ -32,6 +39,7 @@ export default {
     const store = useStore()
     const modal = ref(false)
     const loading = ref(false)
+    const paginated= ref()
 
     onMounted(async () => {
       loading.value = true
@@ -51,13 +59,21 @@ export default {
               return prod
         }))
 
+    /*const paginate = (pagin) => {
+      console.log(pagin)
+      paginated.value = pagin.value
+      console.log(paginated.value)
+    }*/
+
     return {
       products,
       modal,
-      loading
+      loading,
+      paginated,
+      /*paginate*/
     }
   },
-  components: {AppPage, ProductTable, AppLoader, AppModal, ProductModal}
+  components: {AppPage, ProductTable, AppLoader, AppModal, ProductModal, AppPagination}
 }
 </script>
 

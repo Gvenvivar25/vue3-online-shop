@@ -6,8 +6,13 @@
     </div>
 
     <ul class="list">
-      <li class="list-item" @click="category = ''">Все</li>
-      <li class="list-item" v-for="cat in categories" :key="cat.id" @click="changeCategory(cat.type)">
+      <li class="list-item" :class="currentCat === 'all' ? 'active' : '' "
+          @click="category = '', currentCat = 'all'">Все</li>
+      <li class="list-item"
+          :class="currentCat === cat.type ? 'active' : '' "
+          v-for="cat in categories"
+          :key="cat.id"
+          @click="changeCategory(cat.type)">
         {{ cat.title }}
       </li>
     </ul>
@@ -28,6 +33,8 @@ export default {
     const router = useRouter()
     const search = ref(props.modelValue.search || '')
     const category = ref(props.modelValue.category || '')
+    const currentCat = ref('all')
+
     onMounted(async () => {
       await useCategories()
     })
@@ -44,6 +51,7 @@ export default {
       }
       if (values[1]) {
         query.category = values[1]
+        currentCat.value = values[1]
       }
       router.push({query: query})
       emit('update:modelValue', {search, category})
@@ -53,7 +61,8 @@ export default {
       category,
       search,
       categories,
-      changeCategory
+      changeCategory,
+      currentCat
     }
   }
 

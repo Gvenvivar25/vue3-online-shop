@@ -69,7 +69,7 @@ import {useLeaveGuard} from '@/use/leave-guard'
 import {useCategories} from '@/use/categories'
 
 export default {
-  props: ['id'],
+
   setup() {
     const route = useRoute()
     const router = useRouter()

@@ -6,13 +6,13 @@
       <product-card
           v-for="(prod, key) in products"
           :key="key"
-          :title="prod.title"
-          :image="prod.img"
-          :price="prod.price"
-          :count="prod.count"
+          :product="prod"
+          @openProductCard="$router.push(`/product/${prod.id}`)"
+
+
       ></product-card>
     </div>
-    <h2 class="center" v-else>Продуктов пока нет</h2>
+    <h2 class="center" v-if="!products.length">Таких товаров нет, увы</h2>
   </div>
 </template>
 
@@ -52,6 +52,7 @@ export default {
         })
         .sort((a, b) => b.count - a.count)
     )
+
 
     return {
       filter,

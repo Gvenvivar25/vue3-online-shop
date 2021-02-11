@@ -27,8 +27,7 @@ const routes = [
     meta: {
       layout: 'main',
       auth: false
-    },
-    props: true
+    }
   },
   {
     path: '/cart',
@@ -59,13 +58,13 @@ const routes = [
     },
       {
         path: 'products/:id',
-        name: 'CategoryEdit',
+        name: 'ProductEdit',
         component: () => import('../views/admin/ProductEdit.vue'),
         meta: {
           layout: 'admin',
           auth: true
         },
-        props: true
+
       },
       {
         path: 'categories',

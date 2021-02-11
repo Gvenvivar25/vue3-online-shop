@@ -6,7 +6,7 @@
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "dbase": "json-server --watch database.json --port 3000",
+    "dbase": "json-server --watch database.json --port process.env.PORT",
     "serve": "concurrently \"npm run start \" \"npm run dbase\""
   },
   "dependencies": {
