@@ -1,5 +1,5 @@
 <template>
-  <the-main-navbar />
+  <the-admin-navbar />
   <div class="container with-nav">
     <app-message/>
     <router-view />
@@ -7,11 +7,11 @@
 </template>
 
 <script>
+import TheAdminNavbar from '@/components/TheAdminNavbar'
 import AppMessage from '../components/ui/AppMessage'
-import TheMainNavbar from '@/components/TheMainNavbar'
 export default {
   components: {
-    TheMainNavbar,
+    TheAdminNavbar,
     AppMessage
   }
 }

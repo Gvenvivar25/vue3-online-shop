@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from 'axios'
 const TOKEN_KEY = 'jwt-token'
-import {error} from '@/utils/error';
+import {error} from '@/utils/error'
 
 export default {
   namespaced: true,

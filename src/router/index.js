@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Shop from '@/views/Shop'
 import store from '../store'
 
 const routes = [
   {
     path: '/',
     name: 'Shop',
-    component: Shop,
+    component: () => import('../views/Shop.vue'),
     meta: {
       layout: 'main',
       auth: false
@@ -28,7 +27,8 @@ const routes = [
     meta: {
       layout: 'main',
       auth: false
-    }
+    },
+    props: true
   },
   {
     path: '/cart',
@@ -38,6 +38,55 @@ const routes = [
       layout: 'main',
       auth: false
     }
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../views/admin/AdminMain.vue'),
+    redirect: '/admin/products',
+    meta: {
+      layout: 'admin',
+      auth: true
+    },
+    children: [{
+      path: 'products',
+      name: 'AdminProducts',
+      component: () => import('../views/admin/ProductList.vue'),
+      meta: {
+        layout: 'admin',
+        auth: true
+      }
+    },
+      {
+        path: 'products/:id',
+        name: 'CategoryEdit',
+        component: () => import('../views/admin/ProductEdit.vue'),
+        meta: {
+          layout: 'admin',
+          auth: true
+        },
+        props: true
+      },
+      {
+        path: 'categories',
+        name: 'AdminCategories',
+        component: () => import('../views/admin/Categories.vue'),
+        meta: {
+          layout: 'admin',
+          auth: true
+        }
+      },
+      {
+        path: 'categories/:id',
+        name: 'CategoryEdit',
+        component: () => import('../views/admin/CategoryEdit.vue'),
+        meta: {
+          layout: 'admin',
+          auth: true
+        },
+        props: true
+      },
+    ]
   }
 ]
 
