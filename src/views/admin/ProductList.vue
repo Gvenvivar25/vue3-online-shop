@@ -8,12 +8,13 @@
 
   <div class="card">
     <product-table
-        :products="products"
+        :products="paginatedProducts"
     ></product-table>
 
     <app-pagination
-    :dataList="products"
-    :listSize="5"
+    v-model="page"
+    :count="products.length"
+    :size="PAGE_SIZE"
     >
     </app-pagination>
   </div>
@@ -33,18 +34,29 @@ import AppModal from '@/components/ui/AppModal'
 import ProductModal from '@/components/product/ProductModal'
 import AppPagination from '@/components/ui/AppPagination'
 import {useStore} from 'vuex'
-import {onMounted, computed, ref} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import {onMounted, computed, ref, watch} from 'vue'
+import {chunk} from 'lodash'
+import {useLoad} from '@/use/load'
+
 export default {
   setup() {
+    const route = useRoute()
+    const router = useRouter()
     const store = useStore()
     const modal = ref(false)
-    const loading = ref(false)
-    const paginated= ref()
+    const loading = ref(true)
+    const PAGE_SIZE = 5
+    const page= ref(route.query.page ? route.query.page : 1)
+
+    const _setPage = () => router.replace({query: {page: page.value}})
+
+    watch(page, _setPage)
+
+    onMounted(() => _setPage())
 
     onMounted(async () => {
-      loading.value = true
-      await store.dispatch('category/loadCategories')
-      await store.dispatch('product/loadProducts')
+      await useLoad()
       loading.value = false
     })
 
@@ -59,18 +71,15 @@ export default {
               return prod
         }))
 
-    /*const paginate = (pagin) => {
-      console.log(pagin)
-      paginated.value = pagin.value
-      console.log(paginated.value)
-    }*/
+    const paginatedProducts = computed(() => chunk(products.value, PAGE_SIZE)[page.value-1])
 
     return {
       products,
       modal,
       loading,
-      paginated,
-      /*paginate*/
+      PAGE_SIZE,
+      paginatedProducts,
+      page,
     }
   },
   components: {AppPage, ProductTable, AppLoader, AppModal, ProductModal, AppPagination}
