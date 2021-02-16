@@ -2,7 +2,7 @@
 
 ## Project url
 ```
-npm install
+https://online-shop-vue3.web.app/
 ```
 
 ### User auth
