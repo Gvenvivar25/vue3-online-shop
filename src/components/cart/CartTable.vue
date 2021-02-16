@@ -10,32 +10,23 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="(prod, idx) in products" :key="prod.id">
-      <td ><img :src="prod.img" alt="Img" class="cart-img"></td>
-      <td>{{ prod.title }}</td>
-      <td>
-        <button class="btn primary" @click="$emit('add', idx)">+</button>
-        {{ prod.count }} шт.
-        <button class="btn danger" @click="$emit('remove', idx)">-</button>
-      </td>
-      <td>{{ currency(prod.price) }}</td>
-      <td>{{ currency(rowSum(idx)) }}</td>
-    </tr>
+    <cart-product
+        v-for="prod in products"
+        :key="prod.id"
+        :prod="prod"
+    >
+    </cart-product>
     </tbody>
   </table>
 </template>
 
 <script>
-import {currency} from '@/utils/currency'
+import CartProduct from '@/components/cart/CartProduct'
 export default {
-  props:['products'],
-  emits: ['add', 'remove'],
-  setup(props) {
-    const rowSum = (idx) => {
-      return props.products[idx].count * props.products[idx].price
-    }
-    return {currency, rowSum}
-  }
+  props: {
+    products: Array
+  },
+  components: { CartProduct}
 }
 </script>
 

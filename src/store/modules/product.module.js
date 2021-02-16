@@ -1,5 +1,7 @@
-import axios from '../../axios/product'
-import { v4 as uuidv4 } from 'uuid';
+import axios from '../../axios/request'
+import store from '../index'
+import {transform} from '@/utils/transform'
+
 export default {
   namespaced: true,
   state() {
@@ -29,11 +31,8 @@ export default {
   actions: {
     async create({ commit, dispatch }, payload) {
       try {
-       // const token = store.getters['auth/token']
-        payload.id = uuidv4()
-        console.log(payload)
-        await axios.post(`/products`, payload)
-        commit('addProduct', {...payload})
+        const {data} = await axios.post(`/products.json?auth=${store.getters['auth/token']}`, payload)
+        commit('addProduct', {...payload, id: data.name})
         dispatch('setMessage', {
           value: 'Товар успешно создан',
           type: 'primary'
@@ -48,8 +47,7 @@ export default {
 
     async update({commit, dispatch }, product) {
       try {
-        // const token = store.getters['auth/token']
-        await axios.put(`/products/${product.id}`, product)
+        await axios.put(`/products/${product.id}.json?auth=${store.getters['auth/token']}`, product)
         commit('updateProduct', product)
         dispatch('setMessage', {
           value: 'Данные о товаре обновлены',
@@ -66,9 +64,8 @@ export default {
 
     async loadProducts({commit, dispatch}) {
       try {
-        const {data} = await axios.get(`/products`)
-        const requests = Object.keys(data).map(id => ({...data[id]}))
-        commit('setProducts', requests)
+        const {data} = await axios.get(`/products.json`)
+        commit('setProducts', transform(data))
       } catch (e) {
         dispatch('setMessage', {
           value: e.message,
@@ -78,8 +75,8 @@ export default {
     },
     async loadOne({ dispatch}, id) {
       try {
-        const {data} = await axios.get(`/products/${id}`)
-        return data
+        const {data} = await axios.get(`/products/${id}.json?auth=${store.getters['auth/token']}`)
+        return {...data, id: id}
       } catch (e) {
         dispatch('setMessage', {
           value: e.message,
@@ -89,7 +86,7 @@ export default {
     },
     async deleteProduct({dispatch}, id) {
       try {
-        await axios.delete(`/products/${id}`)
+        await axios.delete(`/products/${id}.json?auth=${store.getters['auth/token']}`)
         dispatch('setMessage', {
           value: 'Товар успешно удален',
           type: 'primary'

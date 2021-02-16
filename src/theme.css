@@ -448,6 +448,17 @@ h3 {
     border-color: #e53935;
     color: #e53935;
 }
+.badge.count {
+    border-color: #3eaf7c;
+    color: #3eaf7c;
+    font-weight: bold;
+    vertical-align: top;
+    position: absolute;
+    right: 40px;
+    top: 5px;
+    text-align: center;
+
+}
 
 .badge.warning {
     border-color: #c25205;
@@ -563,7 +574,7 @@ h3 {
 }
 
 .product-card:hover {
-    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2);;
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .product-img {
@@ -631,3 +642,59 @@ h3 {
     width: 750px;
     padding: 1rem;
 }
+
+.order-list {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 700px;
+    padding: 2rem;
+    justify-content: center;
+}
+
+.order-item {
+    display: flex;
+    width: 200px;
+    height: 100px;
+    border: 1px solid #eeebeb;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    transition: .22s box-shadow;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: #f5f4f4;
+}
+
+.order-item:hover {
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2);
+    background-color: #e0ffee;
+}
+
+.order-title {
+    font-weight: 500;
+    font-size: 20px;
+    padding: .5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+.order-title:hover {
+    cursor: pointer;
+    background: #e0ffee;
+}
+
+.order {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.order-body {
+
+}
+
+/*
+.order:hover {
+    cursor: pointer;
+    background: #7BF8BF;
+}*/

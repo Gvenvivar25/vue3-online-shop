@@ -9,13 +9,20 @@
       <img :src="product.img" :alt="product.title"/>
     </div>
     <p>Категория: <strong>{{ category.title }}</strong></p>
-    <button class="btn" @click="show = true">
-      {{ currency(product.price) }}
-    </button>
-    <div class="product-controls in-card" v-if="show">
-      <button class="btn danger" @click="remove" :disabled="count===0">-</button>
-      <strong>{{ count }}</strong>
-      <button class="btn primary" @click="add" :disabled="count===product.count">+</button>
+    <div class="text-center" v-if="product.count > 0">
+      <button class="btn" v-if="countInCart === 0" @click="updateCart(1)" >{{ currency(product.price) }}</button>
+
+      <div class="product-controls in-card" v-else>
+        <app-count-change
+            :count="countInCart"
+            :max-count="product.count"
+            @change-value="updateCart"
+        ></app-count-change>
+      </div>
+
+    </div>
+    <div class="text-center" v-else>
+      <strong >Нет в наличии</strong>
     </div>
   </app-page>
   <h3 class="text-center text-white" v-else>Товар не найден.</h3>
@@ -24,6 +31,7 @@
 <script>
 import AppPage from '../components/ui/AppPage'
 import AppLoader from '@/components/ui/AppLoader'
+import AppCountChange from '@/components/ui/AppCountChange'
 import {useRoute} from 'vue-router'
 import {useStore} from 'vuex'
 import {ref, onMounted, computed} from 'vue'
@@ -34,11 +42,10 @@ export default {
     const route = useRoute()
     const store = useStore()
     const loading = ref(true)
-    const show = ref(false)
-    const count = ref(1)
 
     onMounted(async () => {
       await useLoad()
+      await store.commit('cart/loadCart')
       loading.value = false
     })
 
@@ -48,16 +55,20 @@ export default {
     const category = computed(() => store.getters['category/categories']
     .find(cat => cat.type === product.value.category))
 
-    const add = () => {
-      if(count.value < product.value.count) {
-        count.value ++
+    const productInCart = computed(() => store.getters['cart/cart'].find(item => item.id === product.value.id))
+    const countInCart = computed(() =>{
+      if(productInCart.value) {
+        return productInCart.value.count
+      } else {
+        return 0
       }
-    }
+    })
 
-    const remove = () => {
-      if(count.value > 0) {
-        count.value --
-      }
+    const updateCart = (count) => {
+      console.log(count)
+      const productToCart = {...product.value}
+      productToCart.count = count
+      store.commit('cart/updateCart', productToCart)
     }
 
     return {
@@ -65,13 +76,12 @@ export default {
       category,
       currency,
       loading,
-      show,
-      add,
-      remove,
-      count
+      countInCart,
+      updateCart
+
     }
   },
-  components: {AppPage, AppLoader}
+  components: {AppPage, AppLoader, AppCountChange}
 }
 </script>
 

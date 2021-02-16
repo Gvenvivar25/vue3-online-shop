@@ -1,5 +1,6 @@
-import axios from '../../axios/category'
-import {v4 as uuidv4} from 'uuid'
+import axios from '../../axios/request'
+import store from '../index'
+import {transform} from '@/utils/transform'
 
 export default {
   namespaced: true,
@@ -25,9 +26,8 @@ export default {
   actions: {
     async loadCategories({commit, dispatch}) {
       try {
-        const {data} = await axios.get(`/categories`)
-        const request = Object.keys(data).map(id => ({...data[id]}))
-        commit('setCategories', request)
+        const {data} = await axios.get(`/categories.json`)
+        commit('setCategories', transform(data))
       } catch (e) {
         dispatch('setMessage', {
           value: e.message,
@@ -37,8 +37,8 @@ export default {
     },
     async loadOne({ dispatch}, id) {
       try {
-        const {data} = await axios.get(`/categories/${id}`)
-        return data
+        const {data} = await axios.get(`/categories/${id}.json?auth=${store.getters['auth/token']}`)
+        return {...data, id: id}
       } catch (e) {
         dispatch('setMessage', {
           value: e.message,
@@ -48,10 +48,8 @@ export default {
     },
     async create({ commit, dispatch }, payload) {
       try {
-        // const token = store.getters['auth/token']
-        payload.id = uuidv4()
-        await axios.post(`/categories`, payload)
-        commit('addCategory', {...payload})
+        const {data} = await axios.post(`/categories.json?auth=${store.getters['auth/token']}`, payload)
+        commit('addCategory', {...payload, id: data.name})
         dispatch('setMessage', {
           value: 'Категория успешно создана',
           type: 'primary'
@@ -65,11 +63,10 @@ export default {
     },
     async update({commit, dispatch }, category) {
       try {
-        // const token = store.getters['auth/token']
-        await axios.put(`/categories/${category.id}`, category)
+        await axios.put(`/categories/${category.id}.json?auth=${store.getters['auth/token']}`, category)
         commit('updateCategory', category)
         dispatch('setMessage', {
-          value: 'Данные о товаре обновлены',
+          value: 'Данные о категории обновлены',
           type: 'primary'
         }, {root: true})
         return category
@@ -82,7 +79,7 @@ export default {
     },
     async delete({dispatch}, id) {
       try {
-        await axios.delete(`/categories/${id}`)
+        await axios.delete(`/categories/${id}.json?auth=${store.getters['auth/token']}`)
         dispatch('loadCategories')
         dispatch('setMessage', {
           value: 'Категория успешно удалена',

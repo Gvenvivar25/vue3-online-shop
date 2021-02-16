@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import {ref, onMounted, computed, watch} from "vue"
-import {useStore} from "vuex"
-import {useRouter} from "vue-router"
+import {ref, onMounted, computed, watch} from 'vue'
+import {useStore} from 'vuex'
+import {useRouter} from 'vue-router'
 import {useCategories} from '@/use/categories'
 
 export default {

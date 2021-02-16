@@ -1,6 +1,6 @@
 <template>
   <form class="card" @submit.prevent="onSubmit">
-    <h1>Войти в систему</h1>
+    <h3>Вход в систему</h3>
 
     <div :class="['form-control', {invalid: eError}]">
       <label for="email">Email</label>
@@ -14,7 +14,16 @@
       <small v-if="pError"> {{ pError }}</small>
     </div>
 
-    <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttempts">Войти</button>
+    <button class="btn primary"
+            type="submit" @click.prevent="onSubmit"
+            :disabled="isSubmitting || tooManyAttempts">
+      Войти
+    </button>
+    <button class="btn"
+            type="submit" @click.prevent="onSignUp"
+            :disabled="isSubmitting || tooManyAttempts">
+      Зарегистрироваться
+    </button>
     <div class="text-danger" v-if="tooManyAttempts">
       Вы слишком часто пытаетесь войти в систему. Попробуйте позже
     </div>
@@ -25,6 +34,7 @@
 import {useLoginForm} from '@/use/login-form'
 
 export default {
+
   setup() {
     return {...useLoginForm()}
   }

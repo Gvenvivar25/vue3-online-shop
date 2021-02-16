@@ -8,7 +8,7 @@
 
     <li class="pagination-item" v-for="p in pages" :key="p">
       <button
-          :class="['btn', {'active': p === modelValue}]"
+          :class="['btn', {active: p === modelValue}]"
           @click="$emit('update:modelValue', p)"
       >{{ p }}</button>
     </li>
@@ -26,7 +26,6 @@
 <script>
 import {computed} from 'vue'
 
-
 export default {
   emits: ['update:modelValue'],
   props: ['count', 'size', 'modelValue'],
@@ -34,10 +33,7 @@ export default {
   setup(props) {
     const pages = computed(() => Math.ceil(props.count/props.size))
 
-    return {
-      pages
-
-    }
+    return {pages}
   }
 }
 </script>

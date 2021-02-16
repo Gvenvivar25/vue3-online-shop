@@ -1,15 +1,14 @@
 <template>
   <app-loader v-if="loading"></app-loader>
-  <div class="card">
+  <div class="card" v-else>
     <product-filter v-model="filter"></product-filter>
     <div class="products-table" v-if="products.length">
       <product-card
           v-for="(prod, key) in products"
           :key="key"
           :product="prod"
+          :cart="cart"
           @openProductCard="$router.push(`/product/${prod.id}`)"
-
-
       ></product-card>
     </div>
     <h2 class="center" v-if="!products.length">Таких товаров нет, увы</h2>
@@ -33,10 +32,13 @@ export default {
       search: route.query.search,
       category: route.query.category
     })
+
     onMounted(async () => {
       await useLoad()
+      await store.commit('cart/loadCart')
       loading.value = false
     })
+    const cart = computed(() => store.getters['cart/cart'])
     const products = computed(() => store.state.product.products
         .filter(product => {
           if (filter.value.search) {
@@ -57,7 +59,8 @@ export default {
     return {
       filter,
       loading,
-      products
+      products,
+      cart
     }
 
   },

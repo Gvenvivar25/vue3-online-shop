@@ -8,7 +8,9 @@ const routes = [
     component: () => import('../views/Shop.vue'),
     meta: {
       layout: 'main',
-      auth: false
+      auth: false,
+      role: 'customer'
+
     }
   },
   {
@@ -17,7 +19,8 @@ const routes = [
     component: () => import('../views/Auth.vue'),
     meta: {
       layout: 'auth',
-      auth: false
+      auth: false,
+      role: 'customer'
     }
   },
   {
@@ -26,7 +29,8 @@ const routes = [
     component: () => import('../views/Product.vue'),
     meta: {
       layout: 'main',
-      auth: false
+      auth: false,
+      role: 'customer'
     }
   },
   {
@@ -35,17 +39,61 @@ const routes = [
     component: () => import('../views/Cart.vue'),
     meta: {
       layout: 'main',
-      auth: false
+      auth: false,
+      role: 'customer'
     }
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: () => import('../views/GateWay.vue'),
+    redirect: '/account/main',
+    meta: {
+      layout: 'main',
+      auth: false,
+      role: 'customer'
+    },
+    children: [{
+      path: 'main',
+      name: 'AccountMainPage',
+      component: () => import('../views/account/Account.vue'),
+      meta: {
+        layout: 'main',
+        auth: false,
+        role: 'customer'
+      }
+    },
+      {
+        path: 'personal',
+        name: 'PersonalData',
+        component: () => import('../views/account/PersonalData.vue'),
+        meta: {
+          layout: 'main',
+          auth: true,
+          role: 'customer'
+        }
+      },
+      {
+        path: 'orders',
+        name: 'Orders',
+        component: () => import('../views/account/Orders.vue'),
+        meta: {
+          layout: 'main',
+          auth: true,
+          role: 'customer'
+        }
+      }
+    ]
   },
   {
     path: '/admin',
     name: 'Admin',
-    component: () => import('../views/admin/AdminMain.vue'),
+    component: () => import('../views/GateWay.vue'),
     redirect: '/admin/products',
     meta: {
       layout: 'admin',
-      auth: true
+      auth: true,
+      role: 'admin'
     },
     children: [{
       path: 'products',
@@ -53,7 +101,8 @@ const routes = [
       component: () => import('../views/admin/ProductList.vue'),
       meta: {
         layout: 'admin',
-        auth: true
+        auth: true,
+        role: 'admin'
       }
     },
       {
@@ -62,7 +111,8 @@ const routes = [
         component: () => import('../views/admin/ProductEdit.vue'),
         meta: {
           layout: 'admin',
-          auth: true
+          auth: true,
+          role: 'admin'
         },
 
       },
@@ -72,7 +122,8 @@ const routes = [
         component: () => import('../views/admin/Categories.vue'),
         meta: {
           layout: 'admin',
-          auth: true
+          auth: true,
+          role: 'admin'
         }
       },
       {
@@ -81,9 +132,20 @@ const routes = [
         component: () => import('../views/admin/CategoryEdit.vue'),
         meta: {
           layout: 'admin',
-          auth: true
+          auth: true,
+          role: 'admin'
         },
         props: true
+      },
+      {
+        path: 'orders',
+        name: 'AdminOrders',
+        component: () => import('../views/admin/Orders.vue'),
+        meta: {
+          layout: 'admin',
+          auth: true,
+          role: 'admin'
+        }
       },
     ]
   }
@@ -98,8 +160,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const requireAuth = to.meta.auth
+  console.log(store.getters['auth/role'])
+
   if(requireAuth && store.getters['auth/isAuthenticated']) {
-    next()
+    if(to.meta.role === store.getters['auth/role'] || store.getters['auth/role'] === 'admin') {
+      next()
+    } else {
+      next('/auth?message=auth')
+    }
+
   } else if(requireAuth && !store.getters['auth/isAuthenticated']) {
     next('/auth?message=auth')
   } else {

@@ -3,52 +3,57 @@
     <div class="product-img" >
       <img :src="product.img" @click="$emit('openProductCard', product.id)">
     </div>
-
     <h4 class="product-title">{{ product.title }}</h4>
+    <div class="text-center" v-if="product.count > 0">
+      <button class="btn" v-if="countInCart === 0" @click="updateCart(1)" >{{ currency(product.price) }}</button>
 
-    <div class="text-center">
-      <button class="btn" v-if="product.count > 0" @click="show = true" v-show="!show">{{ currency(product.price) }}</button>
-       <strong v-else>Нет в наличии</strong>
-
-      <div class="product-controls in-card" v-if="show">
-        <button class="btn danger" @click="remove" :disabled="count===0">-</button>
-        <strong>{{ count }}</strong>
-        <button class="btn primary" @click="add" :disabled="count===product.count">+</button>
+      <div class="product-controls in-card" v-else>
+        <app-count-change
+            :count="countInCart"
+            :max-count="product.count"
+            @change-value="updateCart"
+        ></app-count-change>
       </div>
+
+    </div>
+    <div class="text-center" v-else>
+      <strong >Нет в наличии</strong>
     </div>
   </div>
+
 </template>
 
 <script>
-import {ref} from 'vue'
+import {computed} from 'vue'
 import {currency} from '@/utils/currency'
+import {useStore} from 'vuex'
+import AppCountChange from '@/components/ui/AppCountChange'
 export default {
-  props: ['product'],
+  props: ['product', 'cart'],
   emits: ['openProductCard'],
   setup(props) {
-    const show = ref(false)
-    const count = ref(1)
+    const store = useStore()
 
-    const add = () => {
-      if(count.value < props.product.count) {
-        count.value ++
+    const productInCart = computed(() => props.cart.find(item => item.id === props.product.id))
+    const countInCart = computed(() =>{
+      if(productInCart.value) {
+        return productInCart.value.count
+      } else {
+        return 0
       }
+    })
+    const updateCart = (count) => {
+      const productToCart = {...props.product}
+      productToCart.count = count
+      store.commit('cart/updateCart', productToCart)
     }
-
-    const remove = () => {
-      if(count.value > 0) {
-        count.value --
-      }
-    }
-
     return {
       currency,
-      show,
-      count,
-      add,
-      remove
+      countInCart,
+      updateCart
     }
-  }
+  },
+  components: {AppCountChange}
 
 }
 </script>

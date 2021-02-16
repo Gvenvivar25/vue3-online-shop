@@ -14,9 +14,7 @@ export function useCategoryForm(fn) {
     'type',
     yup.string()
       .required('Введите тип категории')
-
   )
-
   const onSubmit = handleSubmit(fn)
 
   return {

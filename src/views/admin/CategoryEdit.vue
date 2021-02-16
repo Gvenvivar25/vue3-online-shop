@@ -12,7 +12,7 @@
           <input type="text" id="type" v-model.trim="category.type">
         </div>
 
-        <button class="btn danger" @click="confirm = true">Удалить</button>
+        <button class="btn danger" @click.prevent="confirm = true">Удалить</button>
         <button class="btn warning" type="submit" v-if="hasChanges">Обновить</button>
       </form>
   </app-page>

@@ -1,12 +1,13 @@
-import {useField, useForm} from 'vee-validate';
-import * as yup from 'yup';
+import {useField, useForm} from 'vee-validate'
+import * as yup from 'yup'
 import {computed, watch} from 'vue'
-import {useStore} from 'vuex';
-import {useRouter} from 'vue-router';
+import {useStore} from 'vuex'
+import {useRouter} from 'vue-router'
 
 export function useLoginForm() {
   const store = useStore()
   const router = useRouter()
+
   const {handleSubmit, isSubmitting, submitCount} = useForm()
   const {value: email, errorMessage: eError, handleBlur: eBlur} = useField('email',
     yup
@@ -34,7 +35,29 @@ export function useLoginForm() {
     console.log(values)
     try {
       await store.dispatch('auth/login', values)
-      router.push('/admin/products')
+      const user = store.getters['auth/user']
+      if(user.role === 'admin') {
+        router.push('/admin/products')
+      }
+      else if(user.role === 'customer') {
+        if(router.currentRoute.value.path === '/auth') {
+          router.push({name: 'Shop'})
+        } else {
+          router.push(router.currentRoute.value)
+        }
+      }
+
+    } catch (e) {
+      console.log(e)
+    }
+
+  })
+
+  const onSignUp = handleSubmit(async values => {
+    console.log(values)
+    try {
+      await store.dispatch('auth/signUp', values)
+      // router.push('/')
     } catch (e) {
       console.log(e)
     }
@@ -50,6 +73,7 @@ export function useLoginForm() {
     pBlur,
     onSubmit,
     isSubmitting,
-    tooManyAttempts
+    tooManyAttempts,
+    onSignUp
   }
 }

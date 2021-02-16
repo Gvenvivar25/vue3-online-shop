@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {useStore} from 'vuex';
+import {useStore} from 'vuex'
 import {computed} from 'vue'
 
 export default {
