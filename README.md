@@ -1,13 +1,17 @@
 # im_vue3
 
-## Project setup
+## Project url
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### User auth
 ```
-npm run serve
+user: admin@mail.ru
+password: 111111
+
+user: v@mail.ru
+password: 444444
 ```
 
 ### Compiles and minifies for production
