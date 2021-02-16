@@ -10,8 +10,8 @@ npm install
 user: admin@mail.ru
 password: 111111
 
-user: v@mail.ru
-password: 444444
+user: m@mail.ru
+password: 111111
 ```
 
 ### Compiles and minifies for production
