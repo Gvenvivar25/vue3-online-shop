@@ -6,7 +6,9 @@
         :key="order.id"
         :order="order"
     ></order-list>
+    <h4 class="text-center" v-if="!orders.length">Заказов пока нет</h4>
   </app-page>
+
 </template>
 
 <script>
@@ -20,10 +22,10 @@ export default {
     const loading = ref(true)
     const store = useStore()
     onMounted(() => {
-      store.dispatch('cart/loadOrdersByUser', store.getters['auth/localId'])
+      store.dispatch('order/loadOrdersByUser', store.getters['auth/localId'])
       loading.value = false
     })
-    const orders = computed(() => store.getters['cart/orders'])
+    const orders = computed(() => store.getters['order/orders'])
     return {
       loading,
       orders

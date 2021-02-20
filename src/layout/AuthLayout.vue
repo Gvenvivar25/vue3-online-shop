@@ -1,7 +1,9 @@
 <template>
   <app-message />
   <div class="container">
-    <router-view/>
+    <div class="card">
+      <router-view/>
+    </div>
   </div>
 </template>
 

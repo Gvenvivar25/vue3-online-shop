@@ -449,15 +449,14 @@ h3 {
     color: #e53935;
 }
 .badge.count {
-    border-color: #3eaf7c;
+    border: 2px solid #3eaf7c;
+    border-radius: 50%;
     color: #3eaf7c;
     font-weight: bold;
     vertical-align: top;
-    position: absolute;
-    right: 40px;
-    top: 5px;
+    padding: 0.1rem .3rem;
     text-align: center;
-
+    margin-left: -2px;
 }
 
 .badge.warning {
@@ -585,7 +584,7 @@ h3 {
 }
 
 .product-cart-img {
-    width: 30%;
+    width: 400px;
     height: auto;
     padding: 0 .5rem;
     display: flex;

@@ -35,10 +35,10 @@ export default {
     const loading = ref(true)
     const user = ref({})
     let initial
-    const localId = computed(() => store.getters['auth/localId'])
 
-    onMounted(async () => {
-      initial = await store.dispatch('auth/getUser', localId.value)
+
+    onMounted( () => {
+      initial =  store.getters['auth/user']
       user.value = {...initial}
       loading.value = false
     })

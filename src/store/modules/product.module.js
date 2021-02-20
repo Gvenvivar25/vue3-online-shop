@@ -1,5 +1,5 @@
 import axios from '../../axios/request'
-import store from '../index'
+//import store from '../index'
 import {transform} from '@/utils/transform'
 
 export default {
@@ -21,6 +21,10 @@ export default {
     addProduct(state, product) {
       state.products.push(product)
     },
+    updateProductCount(state, {id, count}) {
+      const product = state.products.find(p => p.id === id)
+      product.count = count
+    },
     updateProduct(state, product) {
       const idx = state.products.findIndex(item => item.id === product.id)
       if (idx !== -1) {
@@ -31,7 +35,7 @@ export default {
   actions: {
     async create({ commit, dispatch }, payload) {
       try {
-        const {data} = await axios.post(`/products.json?auth=${store.getters['auth/token']}`, payload)
+        const {data} = await axios.post(`/products.json`, payload)
         commit('addProduct', {...payload, id: data.name})
         dispatch('setMessage', {
           value: 'Товар успешно создан',
@@ -47,7 +51,7 @@ export default {
 
     async update({commit, dispatch }, product) {
       try {
-        await axios.put(`/products/${product.id}.json?auth=${store.getters['auth/token']}`, product)
+        await axios.put(`/products/${product.id}.json?`, product)
         commit('updateProduct', product)
         dispatch('setMessage', {
           value: 'Данные о товаре обновлены',
@@ -75,7 +79,7 @@ export default {
     },
     async loadOne({ dispatch}, id) {
       try {
-        const {data} = await axios.get(`/products/${id}.json?auth=${store.getters['auth/token']}`)
+        const {data} = await axios.get(`/products/${id}.json`)
         return {...data, id: id}
       } catch (e) {
         dispatch('setMessage', {
@@ -86,7 +90,7 @@ export default {
     },
     async deleteProduct({dispatch}, id) {
       try {
-        await axios.delete(`/products/${id}.json?auth=${store.getters['auth/token']}`)
+        await axios.delete(`/products/${id}.json`)
         dispatch('setMessage', {
           value: 'Товар успешно удален',
           type: 'primary'

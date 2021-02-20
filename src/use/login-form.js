@@ -32,7 +32,6 @@ export function useLoginForm() {
   )
 
   const onSubmit = handleSubmit(async values => {
-    console.log(values)
     try {
       await store.dispatch('auth/login', values)
       const user = store.getters['auth/user']
@@ -46,22 +45,17 @@ export function useLoginForm() {
           router.push(router.currentRoute.value)
         }
       }
-
     } catch (e) {
       console.log(e)
     }
-
   })
 
   const onSignUp = handleSubmit(async values => {
-    console.log(values)
     try {
       await store.dispatch('auth/signUp', values)
-      // router.push('/')
     } catch (e) {
       console.log(e)
     }
-
   })
 
   return {

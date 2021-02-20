@@ -5,8 +5,8 @@
   </div>
 
   <app-page  class="card center" :title="product.title" v-if="product">
-    <div class="product-cart-img">
-      <img :src="product.img" :alt="product.title"/>
+    <div >
+      <img class="product-cart-img" :src="product.img" :alt="product.title"/>
     </div>
     <p>Категория: <strong>{{ category.title }}</strong></p>
     <div class="text-center" v-if="product.count > 0">
@@ -37,6 +37,7 @@ import {useStore} from 'vuex'
 import {ref, onMounted, computed} from 'vue'
 import {currency} from '@/utils/currency'
 import {useLoad} from '@/use/load'
+import {useUpdateCart} from '@/use/updateCart'
 export default {
   setup() {
     const route = useRoute()
@@ -64,12 +65,7 @@ export default {
       }
     })
 
-    const updateCart = (count) => {
-      console.log(count)
-      const productToCart = {...product.value}
-      productToCart.count = count
-      store.commit('cart/updateCart', productToCart)
-    }
+    const updateCart = (count) => useUpdateCart(count, product.value)
 
     return {
       product,

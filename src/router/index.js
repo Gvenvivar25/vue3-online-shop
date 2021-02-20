@@ -9,7 +9,6 @@ const routes = [
     meta: {
       layout: 'main',
       auth: false,
-      role: 'customer'
 
     }
   },
@@ -20,7 +19,6 @@ const routes = [
     meta: {
       layout: 'auth',
       auth: false,
-      role: 'customer'
     }
   },
   {
@@ -30,7 +28,6 @@ const routes = [
     meta: {
       layout: 'main',
       auth: false,
-      role: 'customer'
     }
   },
   {
@@ -40,7 +37,15 @@ const routes = [
     meta: {
       layout: 'main',
       auth: false,
-      role: 'customer'
+    }
+  },
+  {
+    path: '/thanks',
+    name: 'Thanks',
+    component: () => import('../views/Thanks.vue'),
+    meta: {
+      layout: 'main',
+      auth: true,
     }
   },
   {
@@ -51,7 +56,6 @@ const routes = [
     meta: {
       layout: 'main',
       auth: false,
-      role: 'customer'
     },
     children: [{
       path: 'main',
@@ -60,7 +64,6 @@ const routes = [
       meta: {
         layout: 'main',
         auth: false,
-        role: 'customer'
       }
     },
       {
@@ -70,7 +73,6 @@ const routes = [
         meta: {
           layout: 'main',
           auth: true,
-          role: 'customer'
         }
       },
       {
@@ -80,7 +82,6 @@ const routes = [
         meta: {
           layout: 'main',
           auth: true,
-          role: 'customer'
         }
       }
     ]
@@ -93,7 +94,7 @@ const routes = [
     meta: {
       layout: 'admin',
       auth: true,
-      role: 'admin'
+      admin: true
     },
     children: [{
       path: 'products',
@@ -102,7 +103,7 @@ const routes = [
       meta: {
         layout: 'admin',
         auth: true,
-        role: 'admin'
+        admin: true
       }
     },
       {
@@ -112,9 +113,8 @@ const routes = [
         meta: {
           layout: 'admin',
           auth: true,
-          role: 'admin'
+          admin: true
         },
-
       },
       {
         path: 'categories',
@@ -123,7 +123,7 @@ const routes = [
         meta: {
           layout: 'admin',
           auth: true,
-          role: 'admin'
+          admin: true
         }
       },
       {
@@ -133,7 +133,7 @@ const routes = [
         meta: {
           layout: 'admin',
           auth: true,
-          role: 'admin'
+          admin: true
         },
         props: true
       },
@@ -144,7 +144,7 @@ const routes = [
         meta: {
           layout: 'admin',
           auth: true,
-          role: 'admin'
+          admin: true
         }
       },
     ]
@@ -160,20 +160,26 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const requireAuth = to.meta.auth
-  console.log(store.getters['auth/role'])
+  const requireAdmin = to.meta.admin
 
-  if(requireAuth && store.getters['auth/isAuthenticated']) {
-    if(to.meta.role === store.getters['auth/role'] || store.getters['auth/role'] === 'admin') {
-      next()
+  if(requireAdmin) {
+    if(store.getters['auth/isAdmin']) {
+      return next()
     } else {
-      next('/auth?message=auth')
+      return next('/auth?message=admin')
     }
-
-  } else if(requireAuth && !store.getters['auth/isAuthenticated']) {
-    next('/auth?message=auth')
-  } else {
-    next()
   }
+
+  if(requireAuth){
+    if(store.getters['auth/isAuthenticated']) {
+      return next()
+    } else {
+      return next('/auth?message=auth')
+    }
+  }
+
+  next()
+
 })
 
 export default router

@@ -26,14 +26,12 @@
 <script>
 import {computed} from 'vue'
 import {currency} from '@/utils/currency'
-import {useStore} from 'vuex'
 import AppCountChange from '@/components/ui/AppCountChange'
+import {useUpdateCart} from '@/use/updateCart'
 export default {
   props: ['product', 'cart'],
   emits: ['openProductCard'],
   setup(props) {
-    const store = useStore()
-
     const productInCart = computed(() => props.cart.find(item => item.id === props.product.id))
     const countInCart = computed(() =>{
       if(productInCart.value) {
@@ -42,11 +40,8 @@ export default {
         return 0
       }
     })
-    const updateCart = (count) => {
-      const productToCart = {...props.product}
-      productToCart.count = count
-      store.commit('cart/updateCart', productToCart)
-    }
+    const updateCart = (count) => useUpdateCart(count, props.product)
+
     return {
       currency,
       countInCart,

@@ -16,8 +16,8 @@
 
 <script>
 import {currency} from '@/utils/currency'
-import {useStore} from 'vuex'
 import AppCountChange from '@/components/ui/AppCountChange'
+import {useUpdateCart} from '@/use/updateCart'
 export default {
   props: {
     prod: {
@@ -26,14 +26,9 @@ export default {
     }
   },
   setup(props) {
-    const store = useStore()
     const rowSum = () => props.prod.count * props.prod.price
+    const updateCart = (count) => useUpdateCart(count, props.prod)
 
-    const updateCart = (count) => {
-      const productToCart = {...props.prod}
-      productToCart.count = count
-      store.commit('cart/updateCart', productToCart)
-    }
     return {
       currency,
       updateCart,

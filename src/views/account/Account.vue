@@ -16,9 +16,10 @@
         Выход
       </div>
     </div>
-
   </div>
-  <auth v-else/>
+  <div class="card" v-else>
+    <auth/>
+  </div>
 
 </template>
 

@@ -20,10 +20,10 @@ export default {
     const loading = ref(true)
     const store = useStore()
     onMounted(() => {
-      store.dispatch('cart/loadOrders')
+      store.dispatch('order/loadOrders')
       loading.value = false
     })
-    const orders = computed(() => store.getters['cart/orders'])
+    const orders = computed(() => store.getters['order/orders'])
     return {
       loading,
       orders

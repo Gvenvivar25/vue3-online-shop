@@ -13,7 +13,7 @@
         <router-link to="/admin/orders">Заказы</router-link>
       </li>
       <li>
-        <a href="#" @click="logout">Выход</a>
+        <a href="#" @click.prevent="logout">Выход</a>
       </li>
     </ul>
   </div>
@@ -31,7 +31,7 @@ export default {
     return {
       logout: () => {
         store.commit('auth/logout')
-        router.push('/auth')
+        router.push('/')
       }
     }
   }

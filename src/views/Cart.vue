@@ -7,7 +7,7 @@
     <hr>
     <p class="text-right"><strong>Всего: {{ currency(total) }} </strong></p>
     <p class="text-right" v-if="isAuth">
-      <button class="btn" @click="createOrder">Оплатить</button>
+      <button class="btn" @click="onPay">Оплатить</button>
     </p>
     <div  v-else>
       <h3 class="text-center">Для оформления заказа войдите в систему или зарегистрируйтесь</h3>
@@ -25,15 +25,28 @@ import {currency} from '@/utils/currency'
 import {useStore} from 'vuex'
 import {computed} from 'vue'
 import AppPage from '@/components/ui/AppPage'
+import {pay} from '@/utils/pay'
 export default {
   setup() {
     const store = useStore()
     const isAuth = computed(() => store.getters['auth/isAuthenticated'])
+    const user = computed(() => store.getters['auth/user'])
+    const {total} = useCart()
 
-    const createOrder = () => {
-      store.dispatch('cart/createOrder')
+    const onPay = async () => {
+      await pay({
+        description: 'Оплата товаров',
+        amount: total.value,
+        accountId: user.value.email
+      })
+      await store.dispatch('order/createOrder')
     }
-    return {...useCart(), currency, isAuth, createOrder}
+    return {
+      ...useCart(),
+      currency,
+      isAuth,
+      onPay,
+    }
   },
   components: {CartTable, Auth, AppPage}
 }

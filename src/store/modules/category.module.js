@@ -1,5 +1,4 @@
 import axios from '../../axios/request'
-import store from '../index'
 import {transform} from '@/utils/transform'
 
 export default {
@@ -37,7 +36,7 @@ export default {
     },
     async loadOne({ dispatch}, id) {
       try {
-        const {data} = await axios.get(`/categories/${id}.json?auth=${store.getters['auth/token']}`)
+        const {data} = await axios.get(`/categories/${id}.json`)
         return {...data, id: id}
       } catch (e) {
         dispatch('setMessage', {
@@ -48,7 +47,7 @@ export default {
     },
     async create({ commit, dispatch }, payload) {
       try {
-        const {data} = await axios.post(`/categories.json?auth=${store.getters['auth/token']}`, payload)
+        const {data} = await axios.post(`/categories.json`, payload)
         commit('addCategory', {...payload, id: data.name})
         dispatch('setMessage', {
           value: 'Категория успешно создана',
@@ -63,7 +62,7 @@ export default {
     },
     async update({commit, dispatch }, category) {
       try {
-        await axios.put(`/categories/${category.id}.json?auth=${store.getters['auth/token']}`, category)
+        await axios.put(`/categories/${category.id}.json`, category)
         commit('updateCategory', category)
         dispatch('setMessage', {
           value: 'Данные о категории обновлены',
@@ -79,7 +78,7 @@ export default {
     },
     async delete({dispatch}, id) {
       try {
-        await axios.delete(`/categories/${id}.json?auth=${store.getters['auth/token']}`)
+        await axios.delete(`/categories/${id}.json`)
         dispatch('loadCategories')
         dispatch('setMessage', {
           value: 'Категория успешно удалена',
