@@ -7,9 +7,11 @@ https://online-shop-vue3.web.app/
 
 ### User auth
 ```
+ADMIN:
 user: admin@mail.ru
 password: 111111
 
+CUSTOMER:
 user: m@mail.ru
 password: 111111
 ```
