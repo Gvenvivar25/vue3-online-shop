@@ -1,6 +1,6 @@
 import axios from 'axios'
-import router from '../router'
-import store from '../store'
+import router from '@/router'
+import store from '@/store'
 
 const requestAxios = axios.create({
   baseURL: process.env.VUE_APP_FB_URL

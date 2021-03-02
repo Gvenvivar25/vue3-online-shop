@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import store from '../store'
+import store from '@/store'
 
 const routes = [
   {
@@ -177,9 +177,7 @@ router.beforeEach((to, from, next) => {
       return next('/auth?message=auth')
     }
   }
-
   next()
-
 })
 
 export default router

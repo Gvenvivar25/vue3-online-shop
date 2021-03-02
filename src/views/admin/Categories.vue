@@ -17,11 +17,6 @@
       <category-modal @created="modal = false" />
     </app-modal>
   </teleport>
-
-<!-- <div class="card">
-   <button class="btn primary" @click="load">Load products</button>
- </div>-->
-
 </template>
 
 <script>
@@ -30,7 +25,6 @@ import AppModal from '@/components/ui/AppModal'
 import CategoryModal from '@/components/category/CategoryModal'
 import CategoryTable from '@/components/category/CategoryTable'
 import {onMounted, computed, ref} from 'vue'
-// import db from '../../../database.json'
 import {useStore} from 'vuex'
 export default {
   setup() {
@@ -41,21 +35,6 @@ export default {
       await store.dispatch('category/loadCategories')
     })
     const categories = computed(() => store.getters['category/categories'])
-
-    /*const load = () => {
-      const data = db.products.map(d => {
-        delete d.id
-        return d
-      })
-      console.log(data)
-
-      let index = 0
-      setInterval(async () => {
-        await store.dispatch('product/create', data[index])
-        index ++
-      }, 1000)
-    }*/
-
 
     return {
       categories,

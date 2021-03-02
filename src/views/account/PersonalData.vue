@@ -23,11 +23,11 @@
 </template>
 <script>
 import AppPage from '@/components/ui/AppPage'
-import {useStore} from 'vuex'
-import {computed, ref, onMounted} from 'vue'
 import AppLoader from '@/components/ui/AppLoader'
 import AppConfirm from '@/components/ui/AppConfirm'
 import {useLeaveGuard} from '@/use/leave-guard'
+import {useStore} from 'vuex'
+import {computed, ref, onMounted} from 'vue'
 
 export default {
   setup() {
@@ -35,7 +35,6 @@ export default {
     const loading = ref(true)
     const user = ref({})
     let initial
-
 
     onMounted( () => {
       initial =  store.getters['auth/user']
@@ -60,7 +59,6 @@ export default {
     }
   },
   components: {AppPage, AppLoader, AppConfirm}
-
 }
 </script>
 

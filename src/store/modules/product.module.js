@@ -1,5 +1,4 @@
-import axios from '../../axios/request'
-//import store from '../index'
+import axios from '@/axios/request'
 import {transform} from '@/utils/transform'
 
 export default {

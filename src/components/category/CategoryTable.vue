@@ -19,19 +19,11 @@
     </tr>
     </tbody>
   </table>
-
 </template>
 
 <script>
-
-
 export default {
-  props: ['categories'],
-  setup() {
-
-    return {
-    }
-  }
+  props: ['categories']
 }
 </script>
 

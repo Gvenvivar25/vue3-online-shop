@@ -25,10 +25,10 @@
 
 <script>
 import Auth from '@/views/Auth'
+import AppLoader from '@/components/ui/AppLoader'
 import {useStore} from 'vuex'
 import {computed, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
-import AppLoader from '@/components/ui/AppLoader'
 
 export default {
   setup() {

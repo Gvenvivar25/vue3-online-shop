@@ -37,7 +37,6 @@
   </app-page>
   <div class="card" v-else>Товар не найден</div>
 
-
   <teleport to="body">
     <app-confirm
         v-if="confirm"
@@ -62,11 +61,11 @@
 import AppPage from '@/components/ui/AppPage'
 import AppLoader from '@/components/ui/AppLoader'
 import AppConfirm from '@/components/ui/AppConfirm'
+import {useLeaveGuard} from '@/use/leave-guard'
+import {useCategories} from '@/use/categories'
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {ref, onMounted, computed} from 'vue'
-import {useLeaveGuard} from '@/use/leave-guard'
-import {useCategories} from '@/use/categories'
 
 export default {
 

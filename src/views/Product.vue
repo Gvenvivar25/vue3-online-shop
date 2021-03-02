@@ -29,15 +29,16 @@
 </template>
 
 <script>
-import AppPage from '../components/ui/AppPage'
+import AppPage from '@/components/ui/AppPage'
 import AppLoader from '@/components/ui/AppLoader'
 import AppCountChange from '@/components/ui/AppCountChange'
-import {useRoute} from 'vue-router'
-import {useStore} from 'vuex'
-import {ref, onMounted, computed} from 'vue'
 import {currency} from '@/utils/currency'
 import {useLoad} from '@/use/load'
 import {useUpdateCart} from '@/use/updateCart'
+import {useRoute} from 'vue-router'
+import {useStore} from 'vuex'
+import {ref, onMounted, computed} from 'vue'
+
 export default {
   setup() {
     const route = useRoute()

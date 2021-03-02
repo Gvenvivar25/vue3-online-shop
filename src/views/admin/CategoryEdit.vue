@@ -36,17 +36,16 @@
         @confirm="navigate"
     ></app-confirm>
   </teleport>
-
 </template>
 
 <script>
 import AppPage from '@/components/ui/AppPage'
 import AppLoader from '@/components/ui/AppLoader'
 import AppConfirm from '@/components/ui/AppConfirm'
+import {useLeaveGuard} from '@/use/leave-guard'
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {ref, onMounted, computed} from 'vue'
-import {useLeaveGuard} from '@/use/leave-guard'
 
 export default {
   props: ['id'],

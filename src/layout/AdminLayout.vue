@@ -8,7 +8,7 @@
 
 <script>
 import TheAdminNavbar from '@/components/TheAdminNavbar'
-import AppMessage from '../components/ui/AppMessage'
+import AppMessage from '@/components/ui/AppMessage'
 export default {
   components: {
     TheAdminNavbar,

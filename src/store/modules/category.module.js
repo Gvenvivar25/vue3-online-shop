@@ -1,4 +1,4 @@
-import axios from '../../axios/request'
+import axios from '@/axios/request'
 import {transform} from '@/utils/transform'
 
 export default {

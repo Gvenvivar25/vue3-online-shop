@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import AppMessage from '../components/ui/AppMessage'
+import AppMessage from '@/components/ui/AppMessage'
 import TheMainNavbar from '@/components/TheMainNavbar'
 export default {
   components: {

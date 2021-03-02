@@ -1,5 +1,5 @@
 import axios from 'axios'
-import requestAxios from '../../axios/request'
+import requestAxios from '@/axios/request'
 import {error} from '@/utils/error'
 import store from '@/store'
 import router from '@/router'

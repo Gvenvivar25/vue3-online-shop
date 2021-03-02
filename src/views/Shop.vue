@@ -19,10 +19,11 @@
 import ProductCard from '@/components/product/ProductCard'
 import ProductFilter from '@/components/product/ProductFilter'
 import AppLoader from '@/components/ui/AppLoader'
+import {useLoad} from '@/use/load'
 import {useStore} from 'vuex'
 import {useRoute} from 'vue-router'
 import {computed, onMounted, ref} from 'vue'
-import {useLoad} from '@/use/load'
+
 export default {
   setup() {
     const store = useStore()
@@ -54,7 +55,6 @@ export default {
         })
         .sort((a, b) => b.count - a.count)
     )
-
 
     return {
       filter,

@@ -33,11 +33,12 @@ import AppPage from '@/components/ui/AppPage'
 import AppModal from '@/components/ui/AppModal'
 import ProductModal from '@/components/product/ProductModal'
 import AppPagination from '@/components/ui/AppPagination'
+import {useLoad} from '@/use/load'
 import {useStore} from 'vuex'
 import {useRoute, useRouter} from 'vue-router'
 import {onMounted, computed, ref, watch} from 'vue'
 import {chunk} from 'lodash'
-import {useLoad} from '@/use/load'
+
 
 export default {
   setup() {
