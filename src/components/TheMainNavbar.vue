@@ -15,7 +15,7 @@
         <router-link to="/cart">Корзина <span class="badge count">{{ cartCount }}</span></router-link>
       </li>
       <li>
-        <a v-if="user" href="#" @click.prevent="logout">Выход</a>
+        <a v-if="isAuth" href="#" @click.prevent="logout">Выход</a>
       </li>
     </ul>
   </div>
@@ -34,6 +34,7 @@ export default {
     return {
       user: computed(() =>  store.getters['auth/user']),
       cartCount: computed(() => store.getters['cart/cartCount']),
+      isAuth: computed(() => store.getters['auth/isAuthenticated']),
       logout: () => {
         store.commit('auth/logout')
         router.push('/')
