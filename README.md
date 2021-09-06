@@ -1,9 +1,11 @@
-# im_vue3
+# Online food shop
 
 ## Project url
 
 https://online-shop-vue3.web.app/
 
+## Project description
+This online shop is made with Vue3 Composition API + Firebase
 
 ### User auth
 ```
